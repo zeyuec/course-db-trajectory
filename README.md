@@ -8,11 +8,11 @@ This is a very simple a very simple database management system to store GPS [tra
 ## Support Commands
 
 * CREATE \<tname>;
-* INSERT INTO \<tname> VALUES <sequence>;
-* DELETE FROM \<tname> TRAJECTORY <id>;
-* RETRIEVE FROM \<tname> TRAJECTORY <id>;
-* RETRIEVE FROM \<tname> COUNT OF <id>;
-* RETRIEVE FROM \<tname> WHERE <field><op><val>; (TODO)
+* INSERT INTO \<tname> VALUES \<sequence>;
+* DELETE FROM \<tname> TRAJECTORY \<id>;
+* RETRIEVE FROM \<tname> TRAJECTORY \<id>;
+* RETRIEVE FROM \<tname> COUNT OF \<id>;
+* RETRIEVE FROM \<tname> WHERE \<field>\<op>\<val>; (TODO)
 
 
 ## Git Comment Formart
