@@ -19,7 +19,7 @@ public class Main {
         Log.DEBUG = true;
         databaseModel_ = DatabaseModel.Instance;
         if (!databaseModel_.load(DB_PATH, DB_Name)) {
-            Log.error("Database error");
+            Log.error("Main | Database loading error");
         }
 
         // read
@@ -54,6 +54,8 @@ public class Main {
                 String table = lineArgs[1];
                 if (databaseModel_.create(table))  {
                     Log.output("SUC");
+                } else {
+                    Log.output("Fail");
                 }
                 return true;
             }
@@ -72,7 +74,7 @@ public class Main {
                     }
                 }
                 int retId = databaseModel_.insert(table, seqs);
-                Log.output("id = " + String.valueOf(retId));
+                Log.output("Id = " + String.valueOf(retId));
                 return true;
             } else if (lineArgs[0].equals("delete") &&
                     lineArgs[1].equals("from") &&
@@ -142,8 +144,7 @@ public class Main {
     public boolean isInteger(String str) {
         str = str.trim();
         try {
-            Integer int_num= new Integer(0);
-            int int_out = int_num.parseInt(str);
+            int intOut = Integer.parseInt(str);
         } catch(NumberFormatException e) {
             return false;
         }

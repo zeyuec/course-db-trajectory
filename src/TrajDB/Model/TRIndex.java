@@ -38,12 +38,11 @@ public class TRIndex {
                 fileBufferedReader_ = new BufferedReader(fileReader);
 
                 String line = fileBufferedReader_.readLine();
-                Log.debug("TR read first line: " + line);
                 maxId_ = Integer.valueOf(line);
 
                 return true;
             } catch (Exception e) {
-                Log.exception("TR Index exception");
+                Log.exception("TRIndex | Load exception " + e.getMessage());
                 e.printStackTrace();
             }
         }
@@ -51,8 +50,8 @@ public class TRIndex {
     }
 
     public int insert(String[] seqs) {
-        Log.debug("TR start Insert");
-        Log.debug("max id: " + String.valueOf(maxId_));
+        Log.debug("TRIndex | Insert");
+        Log.debug("TRIndex | Next Id = " + String.valueOf(maxId_));
         int newId = maxId_+1;
         String newFilename = String.valueOf(newId) + ".plt";
         String newFilePath = path_ + newFilename;
@@ -78,7 +77,7 @@ public class TRIndex {
                 FileUtil.replaceFirstLine(path_+name_, String.valueOf(maxId_));
                 return newId;
             } catch (IOException e){
-                Log.exception("Write new file exception");
+                Log.exception("TRIndex | Insert writing new file exception " + e.getMessage());
                 e.printStackTrace();
             }
         }
@@ -116,7 +115,7 @@ public class TRIndex {
 
 
         } catch (Exception e) {
-            Log.exception("Delete Exception");
+            Log.exception("TRIndex | Delete exception " + e.getMessage());
             e.printStackTrace();
         }
         return true;
@@ -136,7 +135,7 @@ public class TRIndex {
             }
             fileBufferedReader_.close();
         } catch (Exception e) {
-            Log.exception("Retrieve Exception");
+            Log.exception("TRIndex | Retrieve exception " + e.getMessage());
             e.printStackTrace();
         }
         return null;
@@ -155,7 +154,7 @@ public class TRIndex {
             }
             fileBufferedReader_.close();
         } catch (Exception e) {
-            Log.exception("Retrieve Size Exception");
+            Log.exception("TRIndex | Retrieve size exception " + e.getMessage());
             e.printStackTrace();
         }
         return -1;
@@ -165,7 +164,7 @@ public class TRIndex {
         try {
             fileBufferedReader_.close();
         } catch (IOException e) {
-            Log.exception("TR Close Exception");
+            Log.exception("TRIndex | Close exception " + e.getMessage());
             e.printStackTrace();
         }
     }

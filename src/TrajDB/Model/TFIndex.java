@@ -26,7 +26,7 @@ public enum TFIndex {
     }
 
     public boolean load(String p, String n) {
-        Log.debug("Loading Data...");
+        Log.debug("TFIndex |  Loading Data...");
         path_ = p;
         name_ = n;
         File f = new File(path_+name_);
@@ -50,7 +50,7 @@ public enum TFIndex {
                     line = br.readLine();
                 }
             } catch (Exception e) {
-                Log.exception(e.getMessage());
+                Log.exception("TFIndex | Load exception " + e.getMessage());
                 e.printStackTrace();
             }
 
@@ -75,7 +75,8 @@ public enum TFIndex {
             }
             writer.close();
         } catch (IOException e) {
-            Log.exception(e.getMessage());
+            Log.exception("TFIndex | Save exception " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -83,19 +84,23 @@ public enum TFIndex {
         if (index_.get(tableName) != null) {
             return false;
         } else {
-            String folderName = String.valueOf(maxIndex_++);
+            String folderName = String.valueOf(maxIndex_);
             if (FileUtil.createFolder(path_ + folderName)) {
+                Log.debug("TFIndex | Try to create folder " + path_+folderName);
                 if (FileUtil.createFile(path_ + folderName + "/TRIndex")) {
                     index_.put(tableName, folderName);
                     try {
+                        Log.debug("TFIndex | Try to create TRIndex in the folder");
                         FileWriter newTRFileWriter = new FileWriter(path_ + folderName + "/TRIndex", false);
                         newTRFileWriter.write("0\n");
+                        newTRFileWriter.flush();
                         newTRFileWriter.close();
+                        maxIndex_++;
+                        return true;
                     } catch (Exception e) {
-                        Log.debug("insert fail");
+                        Log.debug("TFIndex | Insert Fail Exception " + e.getMessage());
                         e.printStackTrace();
                     }
-                    return true;
                 }
             }
         }

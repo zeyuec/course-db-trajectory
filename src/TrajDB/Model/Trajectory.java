@@ -27,7 +27,7 @@ public class Trajectory {
 
     private void load() {
         try {
-            Log.debug("Trajectory: " + path_ + name_);
+            Log.debug("Trajectory | " + path_ + "/" + name_);
             FileReader fileReader = new FileReader(path_ + name_);
             BufferedReader br = new BufferedReader(fileReader);
 
@@ -40,7 +40,7 @@ public class Trajectory {
 
             br.close();
         } catch (Exception e) {
-            Log.exception("Read Sequences Exception");
+            Log.exception("Trajectory | Read Sequences Exception " + e.getMessage());
             e.printStackTrace();
         }
     }

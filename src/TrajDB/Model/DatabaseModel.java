@@ -18,17 +18,18 @@ public enum DatabaseModel {
     }
 
     public boolean create(String table) {
-        Log.debug("CREATE: " + table);
+        Log.debug("DB | CREATE: " + table);
         if (tfIndex_.getFolderName(table) != null) {
-            Log.debug("Table(Folder) exists");
+            Log.debug("DB | Table(Folder) exists");
             return false;
         } else {
+            Log.debug("DB | Try to create table");
             return tfIndex_.insert(table);
         }
     }
 
     public int insert(String table, String[] seqs) {
-        Log.debug("INSERT: " + table);
+        Log.debug("DB | INSERT: " + table);
         for (int i=0; i<seqs.length; i++) {
             Log.debug("ROW: " + seqs[i]);
         }
@@ -41,14 +42,14 @@ public enum DatabaseModel {
     }
 
     public boolean delete(String table, int id) {
-        Log.debug("DELETE: " + table + " " + id);
+        Log.debug("DB | DELETE: " + table + " " + id);
 
         TRIndex trIndex = getTRIndexByTable(table);
         return trIndex.delete(id);
     }
 
     public ArrayList<String> retrieve(String table, int id) {
-        Log.debug("RETRIEVE: " + table + " " + id);
+        Log.debug("DB | RETRIEVE: " + table + " " + id);
         TRIndex trIndex = getTRIndexByTable(table);
         if (trIndex == null) {
             return null;
@@ -58,7 +59,7 @@ public enum DatabaseModel {
     }
 
     public int retrieveSize(String table, int id) {
-        Log.debug("RETRIEVE SIZE: " + table + " " + id);
+        Log.debug("DB | RETRIEVE SIZE: " + table + " " + id);
         TRIndex trIndex = getTRIndexByTable(table);
         if (trIndex == null) {
             return -1;
@@ -81,7 +82,7 @@ public enum DatabaseModel {
         // get TRIndex
         String path = tfIndex_.getPath() + folderName + "/";
         String name = TRIndex.DEFAULT_NAME;
-        Log.debug(path + " " + name);
+        Log.debug("DB | Found TRIndex at " + path + name);
         TRIndex trIndex = new TRIndex(path, name);
         if (trIndex.load()) {
             return trIndex;
