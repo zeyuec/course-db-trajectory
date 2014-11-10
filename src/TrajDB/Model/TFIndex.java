@@ -26,7 +26,7 @@ public enum TFIndex {
     }
 
     public boolean load(String p, String n) {
-        Log.debug("TFIndex |  Loading Data...");
+        Log.debug("TFIndex | Loading Data...");
         path_ = p;
         name_ = n;
         File f = new File(path_+name_);
@@ -43,12 +43,14 @@ public enum TFIndex {
                 line = br.readLine();
 
                 // read index
+                Log.debug("TFIndex | Table Name - ID: ");
                 while (line != null) {
                     String lineArgs[] = line.split(",");
                     Log.debug(lineArgs[0] + " " + lineArgs[1]);
                     index_.put(lineArgs[0], lineArgs[1]);
                     line = br.readLine();
                 }
+                Log.debug("TFIndex | Done");
             } catch (Exception e) {
                 Log.exception("TFIndex | Load exception " + e.getMessage());
                 e.printStackTrace();

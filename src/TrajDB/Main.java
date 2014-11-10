@@ -22,6 +22,8 @@ public class Main {
             Log.error("Main | Database loading error");
         }
 
+        main.welcome();
+
         // read
         Scanner scanner = new Scanner(System.in);
         scanner.useDelimiter(";");
@@ -139,6 +141,16 @@ public class Main {
             }
         }
         return false;
+    }
+
+    private void welcome() {
+        Log.plain("Welcome to Trajectory Database!");
+        Log.plain("Usage: ");
+        Log.plain("CREATE <tname>;");
+        Log.plain("INSERT INTO <tname> VALUES <sequence>;");
+        Log.plain("DELETE FROM <tname> TRAJECTORY <id>;");
+        Log.plain("RETRIEVE FROM <tname> TRAJECTORY <id>;");
+        Log.plain("RETRIEVE FROM <tname> COUNT OF <id>;");
     }
 
     public boolean isInteger(String str) {

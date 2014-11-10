@@ -7,6 +7,10 @@ public class Log {
 
     public static boolean DEBUG = true;
 
+    public static void plain(String msg) {
+        System.out.println(msg);
+    }
+
     public static void exception(String msg) {
         System.out.println("[Exception] " + msg);
     }
