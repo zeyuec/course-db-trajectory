@@ -38,14 +38,21 @@ public enum DatabaseModel {
         if (trIndex == null) {
             return -1;
         }
-        return trIndex.insert(seqs);
+
+        int retId = trIndex.insert(seqs);
+        trIndex.close();
+
+        return retId;
     }
 
     public boolean delete(String table, int id) {
         Log.debug("DB | DELETE: " + table + " " + id);
 
         TRIndex trIndex = getTRIndexByTable(table);
-        return trIndex.delete(id);
+        boolean ret = trIndex.delete(id);
+        trIndex.close();
+
+        return ret;
     }
 
     public ArrayList<String> retrieve(String table, int id) {
@@ -53,19 +60,26 @@ public enum DatabaseModel {
         TRIndex trIndex = getTRIndexByTable(table);
         if (trIndex == null) {
             return null;
-        } else {
-            return trIndex.retrieve(id);
         }
+
+        ArrayList<String> retSeqs = trIndex.retrieve(id);
+        trIndex.close();
+
+        return retSeqs;
     }
 
     public int retrieveSize(String table, int id) {
         Log.debug("DB | RETRIEVE SIZE: " + table + " " + id);
+
         TRIndex trIndex = getTRIndexByTable(table);
         if (trIndex == null) {
             return -1;
-        } else {
-            return trIndex.retrieveSize(id);
         }
+
+        int retSize = trIndex.retrieveSize(id);
+        trIndex.close();;
+
+        return retSize;
     }
 
     public void close() {

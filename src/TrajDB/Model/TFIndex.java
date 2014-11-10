@@ -14,7 +14,7 @@ public enum TFIndex {
     Instance;
 
     private String path_, name_;
-    private int maxIndex_;
+    private int nextValidId_;
     private Hashtable<String, String> index_; // [tableName, folderName]
 
     public String getPath() {
@@ -39,7 +39,7 @@ public enum TFIndex {
                 String line = br.readLine();
 
                 // read max id
-                maxIndex_ = Integer.valueOf(line);
+                nextValidId_ = Integer.valueOf(line);
                 line = br.readLine();
 
                 // read index
@@ -68,7 +68,7 @@ public enum TFIndex {
             FileWriter writer = new FileWriter(file, false); // true to append, false to rewrite
 
             // write max id
-            writer.write(String.valueOf(maxIndex_)+"\n");
+            writer.write(String.valueOf(nextValidId_)+"\n");
 
             // write indexes
             Set<String> keys = index_.keySet();
@@ -86,7 +86,7 @@ public enum TFIndex {
         if (index_.get(tableName) != null) {
             return false;
         } else {
-            String folderName = String.valueOf(maxIndex_);
+            String folderName = String.valueOf(nextValidId_); //use nextValidId as the folder name
             if (FileUtil.createFolder(path_ + folderName)) {
                 Log.debug("TFIndex | Try to create folder " + path_+folderName);
                 if (FileUtil.createFile(path_ + folderName + "/TRIndex")) {
@@ -97,7 +97,7 @@ public enum TFIndex {
                         newTRFileWriter.write("0\n");
                         newTRFileWriter.flush();
                         newTRFileWriter.close();
-                        maxIndex_++;
+                        nextValidId_++; // increase nextValidId
                         return true;
                     } catch (Exception e) {
                         Log.debug("TFIndex | Insert Fail Exception " + e.getMessage());

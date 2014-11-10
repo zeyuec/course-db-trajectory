@@ -33,7 +33,6 @@ public class Trajectory {
 
             String line = br.readLine();
             while (line != null) {
-                Log.debug(line);
                 seqs_.add(line);
                 line = br.readLine();
             }

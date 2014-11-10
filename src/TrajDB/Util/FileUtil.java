@@ -1,7 +1,5 @@
 package TrajDB.Util;
 
-import TrajDB.Util.Log;
-
 import java.io.File;
 import java.io.RandomAccessFile;
 

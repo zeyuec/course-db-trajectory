@@ -19,14 +19,14 @@ public class TRIndex {
     private File file_;
     private BufferedReader fileBufferedReader_;
 
-    private int maxId_;
+    private int nextValidId_;
     private Hashtable<String, ArrayList<String>> index_;
 
     public TRIndex(String p, String n) {
         path_ = p;
         name_ = n;
         file_ = null;
-        maxId_ = 0;
+        nextValidId_ = 0;
         index_ = new Hashtable<String, ArrayList<String>>();
     }
 
@@ -38,7 +38,7 @@ public class TRIndex {
                 fileBufferedReader_ = new BufferedReader(fileReader);
 
                 String line = fileBufferedReader_.readLine();
-                maxId_ = Integer.valueOf(line);
+                nextValidId_ = Integer.valueOf(line);
 
                 return true;
             } catch (Exception e) {
@@ -51,9 +51,9 @@ public class TRIndex {
 
     public int insert(String[] seqs) {
         Log.debug("TRIndex | Insert");
-        Log.debug("TRIndex | Next Id = " + String.valueOf(maxId_));
-        int newId = maxId_+1;
-        String newFilename = String.valueOf(newId) + ".plt";
+        Log.debug("TRIndex | Next Valid Id = " + String.valueOf(nextValidId_));
+        int newId = nextValidId_ +1;
+        String newFilename = String.valueOf(newId) + ".plt"; // use next valid id as the new file name
         String newFilePath = path_ + newFilename;
         if (FileUtil.createFile(newFilePath)) {
             try {
@@ -72,9 +72,9 @@ public class TRIndex {
                 newTrWriter.flush();
                 newTrWriter.close();
 
-                maxId_++;
+                nextValidId_++; // increase next valid id
 
-                FileUtil.replaceFirstLine(path_+name_, String.valueOf(maxId_));
+                FileUtil.replaceFirstLine(path_+name_, String.valueOf(nextValidId_));
                 return newId;
             } catch (IOException e){
                 Log.exception("TRIndex | Insert writing new file exception " + e.getMessage());
@@ -88,7 +88,7 @@ public class TRIndex {
     public boolean delete(int id) {
         try {
             String data = new String();
-            data += String.valueOf(maxId_) + "\n";
+            data += String.valueOf(nextValidId_) + "\n";
 
             String line = fileBufferedReader_.readLine();
 
