@@ -10,6 +10,8 @@ import java.util.ArrayList;
  * Created by zeyuec on 11/9/14.
  */
 public class Trajectory {
+
+    public static String DEFAULT_EXTENSION = ".traj";
     private int count_;
     private ArrayList<String> seqs_;
     private String path_, name_;
@@ -30,7 +32,8 @@ public class Trajectory {
             Log.debug("Trajectory | " + path_ + "/" + name_);
             FileReader fileReader = new FileReader(path_ + name_);
             BufferedReader br = new BufferedReader(fileReader);
-
+            br.readLine();// skip id
+            br.readLine();// skip previous, filename, next
             String line = br.readLine();
             while (line != null) {
                 seqs_.add(line);

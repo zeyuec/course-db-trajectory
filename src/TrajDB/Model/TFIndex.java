@@ -15,7 +15,7 @@ public enum TFIndex {
 
     private String path_, name_;
     private int nextValidId_;
-    private Hashtable<String, String> index_; // [tableName, folderName]
+    private Hashtable<String, Integer> index_; // [tableName, id]
 
     public String getPath() {
         return path_;
@@ -34,7 +34,7 @@ public enum TFIndex {
             try {
                 FileReader fileReader = new FileReader(path_ + name_);
                 BufferedReader br = new BufferedReader(fileReader);
-                index_ = new Hashtable<String, String>();
+                index_ = new Hashtable<String, Integer>();
 
                 String line = br.readLine();
 
@@ -43,11 +43,11 @@ public enum TFIndex {
                 line = br.readLine();
 
                 // read index
-                Log.debug("TFIndex | Table Name - ID: ");
+                Log.debug("TFIndex | Table ID - NAME: ");
                 while (line != null) {
                     String lineArgs[] = line.split(",");
                     Log.debug(lineArgs[0] + " " + lineArgs[1]);
-                    index_.put(lineArgs[0], lineArgs[1]);
+                    index_.put(lineArgs[1], Integer.valueOf(lineArgs[0]));
                     line = br.readLine();
                 }
                 Log.debug("TFIndex | Done");
@@ -73,7 +73,7 @@ public enum TFIndex {
             // write indexes
             Set<String> keys = index_.keySet();
             for(String key: keys){
-                writer.write(key+","+ index_.get(key)+"\n");
+                writer.write(index_.get(key)+","+ key+"\n");
             }
             writer.close();
         } catch (IOException e) {
@@ -86,14 +86,15 @@ public enum TFIndex {
         if (index_.get(tableName) != null) {
             return false;
         } else {
-            String folderName = String.valueOf(nextValidId_); //use nextValidId as the folder name
+            String folderName = String.format("%05d", nextValidId_); //use nextValidId as the folder name
             if (FileUtil.createFolder(path_ + folderName)) {
                 Log.debug("TFIndex | Try to create folder " + path_+folderName);
-                if (FileUtil.createFile(path_ + folderName + "/TRIndex")) {
-                    index_.put(tableName, folderName);
+                String newTRFileName = path_ + folderName + "/" + folderName + "_" + TRIndex.DEFAULT_NAME;
+                if (FileUtil.createFile(newTRFileName)) {
+                    index_.put(tableName, nextValidId_);
                     try {
                         Log.debug("TFIndex | Try to create TRIndex in the folder");
-                        FileWriter newTRFileWriter = new FileWriter(path_ + folderName + "/TRIndex", false);
+                        FileWriter newTRFileWriter = new FileWriter(newTRFileName, false);
                         newTRFileWriter.write("0\n");
                         newTRFileWriter.flush();
                         newTRFileWriter.close();
@@ -110,7 +111,11 @@ public enum TFIndex {
     }
 
     public String getFolderName(String tableName) {
-        return index_.get(tableName);
+        Integer tableId = index_.get(tableName);
+        if (tableId == null) {
+            return null;
+        }
+        return String.format("%05d", tableId);
     }
 
 

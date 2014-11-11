@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Main {
 
     private static String DB_PATH = "./data/"; // TODO: get it from user input
-    private static String DB_DEFAULT_INDEX = "TFIndex";
+    private static String DB_DEFAULT_INDEX = "TFIndex.index";
 
     private static DatabaseModel databaseModel_;
 
@@ -20,6 +20,7 @@ public class Main {
         databaseModel_ = DatabaseModel.Instance;
         if (!databaseModel_.load(DB_PATH, DB_DEFAULT_INDEX)) {
             Log.error("Main | Database loading error");
+            return;
         }
 
         main.welcome();

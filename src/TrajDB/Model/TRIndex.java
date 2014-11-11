@@ -11,7 +11,7 @@ import java.util.Hashtable;
  * Created by zeyuec on 11/9/14.
  */
 public class TRIndex {
-    public static String DEFAULT_NAME = "TRIndex";
+    public static String DEFAULT_NAME = "TRIndex.index";
 
     private String path_;
     private String name_;
@@ -40,6 +40,8 @@ public class TRIndex {
                 String line = fileBufferedReader_.readLine();
                 nextValidId_ = Integer.valueOf(line);
 
+                fileBufferedReader_.readLine();// skip one line
+
                 return true;
             } catch (Exception e) {
                 Log.exception("TRIndex | Load exception " + e.getMessage());
@@ -53,7 +55,7 @@ public class TRIndex {
         Log.debug("TRIndex | Insert");
         Log.debug("TRIndex | Next Valid Id = " + String.valueOf(nextValidId_));
         int newId = nextValidId_ +1;
-        String newFilename = String.valueOf(newId) + ".plt"; // use next valid id as the new file name
+        String newFilename = String.format("%05d", newId) + Trajectory.DEFAULT_EXTENSION; // use next valid id as the new file name
         String newFilePath = path_ + newFilename;
         if (FileUtil.createFile(newFilePath)) {
             try {

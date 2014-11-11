@@ -95,7 +95,7 @@ public enum DatabaseModel {
 
         // get TRIndex
         String path = tfIndex_.getPath() + folderName + "/";
-        String name = TRIndex.DEFAULT_NAME;
+        String name = folderName + "_" + TRIndex.DEFAULT_NAME;
         Log.debug("DB | Found TRIndex at " + path + name);
         TRIndex trIndex = new TRIndex(path, name);
         if (trIndex.load()) {
